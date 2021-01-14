@@ -77,8 +77,8 @@ public class DB {
 	}
 		
 	/*
-	 * METHOD: closeResultStatement(ResultSet rs) OBJECTIVE: close sql resource
-	 * responsible by save results of querys
+	 * METHOD: 		closeResultStatement(ResultSet rs)
+	 * OBJECTIVE: 	close sql resource responsible by save results of querys
 	 */
 	public static void closeResultSet(ResultSet rs) {
 		if (rs != null) {
