@@ -6,9 +6,9 @@ import model.entities.Seller;
 
 public interface SellerDao {
 	// CONTRACTS
-	void insert(Seller obj); // INSERT A NEW SELLER
-	void update(Seller obj); // UPDATE AN SELLER
-	void delete(Seller obj); // DELETE A SELLER
-	Seller findById(Integer id); // FIND SOMEONE SELLER BASED ON ID
-	List<Seller> findAll(); // SEARCH ALL SELLERS
+	void insert(Seller obj); 		// INSERT A NEW SELLER
+	void update(Seller obj);		// UPDATE AN SELLER
+	void deleteById(Integer id);	// DELETE A SELLER BASED ON ID
+	Seller findById(Integer id);	// FIND SOMEONE SELLER BASED ON ID
+	List<Seller> findAll();			// SEARCH ALL SELLERS
 }
