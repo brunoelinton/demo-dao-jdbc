@@ -38,7 +38,7 @@ public class Department implements Serializable {
 		this.name = name;
 	}
 	
-	// HASHCODE AND EQUALS METHODS THAT MAKES THE DEPARTMENT A COMPARABBLE OBJECT 
+	// HASHCODE AND EQUALS - METHODS THAT MAKES THE DEPARTMENT A COMPARABBLE OBJECT 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
