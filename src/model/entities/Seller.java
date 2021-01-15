@@ -110,12 +110,14 @@ public class Seller implements Serializable {
 	// OVERRIDE METHOD toString
 	@Override
 	public String toString() {
-		return "Id: " + id +
-				", Name: " + name +
-				", Email: " + email +
-				", Bith date: " + birthDate +
-				", Base salary: $ " + String.format("%.2f", baseSalary) +
-				", Department Id: " + department.getId() +
-				", Department name: " + department.getName();
+		return "SELLER: \n" 
+				+ "\tId: " + id + "\n"
+				+ "\tName: " + name + "\n"
+				+ "\tEmail: " + email + "\n"
+				+ "\tBith date: " + birthDate + "\n"
+				+ "\tBase salary: $ " + String.format("%.2f", baseSalary) + "\n"
+				+ "DEPARTMENT: \n"
+				+ "\tDepartment Id: " + department.getId() + "\n"
+				+ "\tDepartment name: " + department.getName();
 	}
 }
