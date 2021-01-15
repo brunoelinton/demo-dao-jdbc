@@ -14,13 +14,13 @@ public class Seller implements Serializable {
 	private Date birthDate;
 	private Double baseSalary;
 	
+	// ASSOCIANTION / COMPOSITION
+	private Department department;
+	
 	// SELLER DEFAULT CONSTRUCTOR
 	public Seller() {
 		
 	}
-	
-	// ASSOCIANTION / COMPOSITION
-	private Department department;
 	
 	// CONSTRUCTOR OVERLOAD
 	public Seller(Integer id, String name, String email, Date birthDate, Double baseSalary, Department department) {
