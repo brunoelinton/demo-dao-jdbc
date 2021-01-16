@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +26,54 @@ public class SellerDaoJDBC implements SellerDao {
 	}
 	
 	@Override
-	public void insert(Seller obj) {
-		// TODO Auto-generated method stub
+	public void insert(Seller obj) {		
+		// QUERY
+		String query = 
+				"INSERT INTO seller " +
+				"(Name, Email, BirthDate, BaseSalary, DepartmentId) " +
+				"VALUES " +
+				"(?, ?, ?, ?, ?)";
+		// VARIABLE TO PREPARE A QUERY
+		PreparedStatement st = null;
+		// VARIABLE TO SAVE RESULT QUERY
+		ResultSet rs = null;
+		
+		try {
+			// MAKING QUERY
+			st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			// INSERT PARÂMETERS OF QUERY
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDouble(4, obj.getBaseSalary());
+			st.setInt(5, obj.getDepartment().getId());
+			// EXECUTING INSERTION
+			int rowsAffected = st.executeUpdate();
+			
+			// VARIFYING IF INSERTION WAS SUCCESSFULL
+			if(rowsAffected > 0) {
+				// OBTEINING KEYS OF INSERTIONS REGISTER
+				rs = st.getGeneratedKeys();
+				// CHEKING RESULT
+				if(rs.next()) {
+					// SAVING ID OF REGISTER
+					int id = rs.getInt(1);
+					// POPULATE FILD ID OF OBJECT
+					obj.setId(id);
+					// SHOWS RESULTS OF OPERATION AND ID OF REGISTER
+					System.out.println("Done! Id: " + id);
+				}
+				// SHOW NUMBER OF ROWS AFFECTED
+				System.out.println("Rows affected: " + rowsAffected);
+			} else {
+				throw new DbException("Unexpected error! No rows affected!");
+			}
+		} catch(SQLException e) {
+			throw new DbException(e.getMessage());			
+		} finally { // CLOSING RESOURCES
+			DB.closeResultSet(rs);
+			DB.closeStatement(st);
+		}
 	}
 
 	@Override
