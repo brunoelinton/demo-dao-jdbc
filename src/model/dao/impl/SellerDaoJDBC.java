@@ -89,14 +89,54 @@ public class SellerDaoJDBC implements SellerDao {
 	
 	@Override
 	public List<Seller> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		// LIST OF SELLERS
+		List<Seller> sellers = new ArrayList<>();
+		// COLLECTION TO SAVE UNIQUES REGISTERS OF DEPARTMENT
+		Map<Integer, Department> map = new HashMap<>();
+		// QUERY
+		String query =
+				"SELECT seller.*,department.Name as DepName " +
+				"FROM seller INNER JOIN department " +
+				"ON seller.DepartmentId = department.Id " +
+				"ORDER BY Name";
+		// VARIABLE TO PREPARE QUERY
+		PreparedStatement st = null;
+		// VARIABLE TO SAVE RESULT QUERY
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(query);	// MAKE A QUERY
+			rs = st.executeQuery();				// EXECUTING QUERY AND SAVE RESULTS
+
+			// VERIFYING RESULTS OF QUERY
+			while(rs.next()) {
+				Department dep = map.get(rs.getInt("DepartmentId"));
+				// CHECKING IF THE DEPARTMENT ALREADY EXISTS OR NOT 
+				if(dep == null) {
+					dep = instantiateDepartment(rs);
+					map.put(rs.getInt("DepartmentId"), dep);
+				}
+				// CREATE A SELLER
+				Seller obj = instantiateSeller(rs, dep);
+				
+				// ADD SELLERS INTO SELLER'S COLECTION
+				sellers.add(obj);
+			}
+		} catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {	// CLOSING RESOURCES
+			DB.closeResultSet(rs);
+			DB.closeStatement(st);
+		}
+		
+		return sellers;
 	}
 
 	@Override
 	public List<Seller> findByDepartment(Department department) {
 		// LIST OF SELLERS
 		List<Seller> sellers = new ArrayList<>();
+		// COLLECTION TO SAVE REGISTERS OF DEPARTMENT
 		Map<Integer, Department> map = new HashMap<>();
 		// QUERY
 		String query =
@@ -129,9 +169,11 @@ public class SellerDaoJDBC implements SellerDao {
 				// ADD SELLERS INTO SELLER'S COLECTION
 				sellers.add(obj);
 			}
-			
 		} catch(SQLException e) {
 			throw new DbException(e.getMessage());
+		} finally {	// CLOSING RESOURCES
+			DB.closeResultSet(rs);
+			DB.closeStatement(st);
 		}
 		
 		return sellers;
